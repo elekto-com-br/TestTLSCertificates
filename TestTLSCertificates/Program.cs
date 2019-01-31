@@ -73,7 +73,7 @@ namespace Elekto
 
                 var proxy = GetWebProxy();
 
-                var tempFileName = Path.GetTempFileName();
+                var tempFileName = Path.GetTempFileName() + ".txt";
                 using (var request = new WebClient())
                 {
                     if (proxy != null)
@@ -89,7 +89,16 @@ namespace Elekto
                     Console.WriteLine("Baixado!");
                     var fi = new FileInfo(tempFileName);
                     Console.WriteLine($"Arquivo baixado tem {fi.Length:N0} bytes.");
-                    fi.Delete();
+
+                    if ((args.Length >= 2) && (args[1].Equals("keep", StringComparison.InvariantCultureIgnoreCase)))
+                    {
+                        Console.WriteLine($"Arquivo baixado foi mantido em {tempFileName}");
+                    }
+                    else
+                    {
+                        fi.Delete();
+                    }
+                    
                 }
 
                 return 0;
